@@ -1,10 +1,10 @@
 provider "aws" {
   profile = "default"
   region = "${var.region}"
-  shared_credentials_file = "${var.aws_credentials_file}"
+  shared_credentials_file = "${var.aws_credentials_filepath}"
 }
 
-variable "aws_credentials_file" {
+variable "aws_credentials_filepath" {
   description = "The location to AWS shared credentials"
 }
 
