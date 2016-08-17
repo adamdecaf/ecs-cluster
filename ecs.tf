@@ -22,7 +22,20 @@ resource "aws_key_pair" "ecs" {
 
 resource "aws_iam_role" "ecs_role" {
   name               = "ecs_role"
-  assume_role_policy = "${file("${path.module}/policies/ecs-role.json")}"
+  assume_role_policy = <<EOT
+{
+  "Version": "2008-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": ["ecs.amazonaws.com", "ec2.amazonaws.com"]
+      },
+      "Effect": "Allow"
+    }
+  ]
+}
+EOT
 }
 
 resource "aws_iam_role_policy" "ecs_service_role_policy" {
@@ -33,7 +46,31 @@ resource "aws_iam_role_policy" "ecs_service_role_policy" {
 
 resource "aws_iam_role_policy" "ecs_instance_role_policy" {
   name     = "ecs_instance_role_policy"
-  policy   = "${path.module}/${file("policies/ecs-instance-role-policy.json")}"
+  policy   = <<EOT
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecs:CreateCluster",
+        "ecs:DeregisterContainerInstance",
+        "ecs:DiscoverPollEndpoint",
+        "ecs:Poll",
+        "ecs:RegisterContainerInstance",
+        "ecs:StartTelemetrySession",
+        "ecs:Submit*",
+        "ecs:StartTask",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetAuthorizationToken"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOT
   role     = "${aws_iam_role.ecs_role.id}"
 }
 
@@ -70,7 +107,30 @@ resource "aws_iam_instance_profile" "ecs" {
 }
 
 resource "template_file" "ecs_service_role_policy" {
-  template = "${path.module}/${file("${path.module}/policies/ecs-service-role-policy.json.tpl")}"
+  template = <<EOT
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticloadbalancing:Describe*",
+        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+        "ec2:Describe*",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetAuthorizationToken"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+EOT
 }
 
 resource "aws_launch_configuration" "ecs" {
