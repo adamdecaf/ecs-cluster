@@ -6,7 +6,7 @@ variable "redis_docker_image" {
 # move to an example
 
 resource "template_file" "redis_task" {
-  template = "${file("${path.module}/task-definitions/redis.json.tpl")}"
+  template = "${path.module}/${file("${path.module}/task-definitions/redis.json.tpl")}"
   vars {
     redis_docker_image = "${var.redis_docker_image}"
   }
