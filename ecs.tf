@@ -22,7 +22,7 @@ resource "aws_key_pair" "ecs" {
 
 resource "aws_iam_role" "ecs_role" {
   name               = "ecs_role"
-  assume_role_policy = "${path.module}/${file("policies/ecs-role.json")}"
+  assume_role_policy = "${file("${path.module}/policies/ecs-role.json")}"
 }
 
 resource "aws_iam_role_policy" "ecs_service_role_policy" {
