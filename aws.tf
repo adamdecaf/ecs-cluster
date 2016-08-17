@@ -1,16 +1,10 @@
 provider "aws" {
-  access_key = "${var.aws_access_key}"
-  secret_key = "${var.aws_secret_key}"
   region     = "${var.region}"
+  shared_credentials_file = "${var.aws_credentials_file}"
 }
 
-# general aws
-variable "aws_access_key" {
-  description = "The AWS access key."
-}
-
-variable "aws_secret_key" {
-  description = "The AWS secret key."
+variable "aws_credentials_file" {
+  description = "The location to AWS shared credentials"
 }
 
 # todo: multiple regions
