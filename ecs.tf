@@ -134,7 +134,7 @@ EOT
 }
 
 resource "aws_launch_configuration" "ecs" {
-  name                 = "ecs"
+  name                 = "${var.ecs_cluster_name}"
 
   image_id             = "${lookup(var.amis, var.region)}"
   instance_type        = "${var.instance_type}"
