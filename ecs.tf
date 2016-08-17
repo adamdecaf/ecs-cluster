@@ -164,7 +164,7 @@ resource "aws_autoscaling_group" "ecs" {
 
   tag {
     key = "Name"
-    value =  "ecs worker"
+    value =  "${var.ecs_cluster_name}-ecs-worker${count.index}"
     propagate_at_launch = true
   }
 }
