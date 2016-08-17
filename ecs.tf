@@ -40,7 +40,7 @@ EOT
 
 resource "aws_iam_role_policy" "ecs_service_role_policy" {
   name     = "ecs_service_role_policy"
-  policy   = "${template_file.ecs_service_role_policy.rendered}"
+  policy   = "${data.template_file.ecs_service_role_policy.rendered}"
   role     = "${aws_iam_role.ecs_role.id}"
 }
 
@@ -106,7 +106,7 @@ resource "aws_iam_instance_profile" "ecs" {
   roles = ["${aws_iam_role.ecs_role.name}"]
 }
 
-resource "template_file" "ecs_service_role_policy" {
+data "template_file" "ecs_service_role_policy" {
   template = <<EOT
 {
   "Version": "2012-10-17",
