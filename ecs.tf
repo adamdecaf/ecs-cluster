@@ -17,7 +17,7 @@ variable "ecs_desired_workers" {
 
 resource "aws_key_pair" "ecs" {
   key_name   = "${var.key_name}"
-  public_key = "${file("${path.module}/${var.key_file}")}"
+  public_key = "${var.key_file}"
 }
 
 resource "aws_iam_role" "ecs_role" {
