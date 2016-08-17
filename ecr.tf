@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "default" {
-  name = "redis"
+  name = "default_ecs_repo"
 }
 
 resource "aws_ecr_repository_policy" "default" {
