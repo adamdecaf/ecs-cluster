@@ -1,11 +1,11 @@
-provider "aws" {
-  profile = "default"
-  region = "${var.region}"
-  shared_credentials_file = "${var.aws_credentials_filepath}"
-}
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
 
-variable "aws_credentials_filepath" {
-  description = "The location to AWS shared credentials"
+provider "aws" {
+  region = "${var.region}"
+
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
 }
 
 # todo: multiple regions
