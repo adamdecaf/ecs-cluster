@@ -116,7 +116,3 @@ resource "aws_ecs_cluster" "production" {
 output "ecs_cluster_id" {
   value = "${aws_ecs_cluster.production.id}"
 }
-
-output "ecs_role_policy" {
-  value = "${aws_iam_role_policy.ecs_service_role_policy}"
-}
